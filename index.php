@@ -11,9 +11,9 @@ $CustomerControllerObj = new CustomerControllerClass();
 /*foreach ($CustomerControllerObj->get() as $row) {
 
     echo $row['id']." ".$row['email']."<br>";
-}
+}*/
 echo $CustomerControllerObj->update([1, 'dobritaandreigabriel@gmail.com']);
-echo $CustomerControllerObj->insert(['nouclient@gmail.com', date("h:i:sa")]);
-echo $CustomerControllerObj->delete(10);*/
+//echo $CustomerControllerObj->insert(['nouclient@gmail.com', date("h:i:sa")]);
+//echo $CustomerControllerObj->delete(10);
 
 

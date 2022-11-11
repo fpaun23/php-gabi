@@ -1,0 +1,13 @@
+{
+    "name": "tc/php-gabi",
+    "authors": [
+        {
+            "name": "GabyD002",
+            "email": "andrei.dobrita@devnest.ro"
+        }
+    ],
+    "require": {
+
+        "squizlabs/php_codesniffer": "3.5.5"
+    }
+}
