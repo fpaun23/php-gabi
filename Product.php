@@ -33,7 +33,7 @@ class Product implements ProductsInterface {
 
     public function printPriceAndName() : void {
 
-        echo 'Pretul produsului este '.$this->price."\n";
-        echo 'Numele produsului este '.$this->name;
+        echo 'Pretul produsului este '.$this->price."<br>";
+        echo 'Numele produsului este '.$this->name."<br>";
     }
 }
