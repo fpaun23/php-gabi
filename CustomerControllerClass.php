@@ -1,14 +1,34 @@
 <?php
 
+require_once ('./db/DbConnectionInterface.php');
 require_once ('./db/PdoConnectionClass.php');
+require_once ('./db/MysqliConnectionClass.php');
 
 class CustomerControllerClass {
 
     private $connection;
 
-    public function __construct() {
+    public function __construct($typeOfConnection) {
 
-        $this->connection = new PdoConnectionClass();
+        try {
+
+            switch ($typeOfConnection) {
+
+                case 'Mysqli':
+                    $this->connection = new MysqliConnectionClass();
+                    break;
+                case 'Pdo':
+                    $this->connection = new PdoConnectionClass();
+                    break;
+                default:
+                    throw new Exception('Invalid type of connection!<br>');
+                    break;
+            }
+        }
+        catch (Exception $e) {
+
+            echo $e->getMessage();
+        }
     }
 
     public function get() : array {

@@ -1,8 +1,8 @@
 <?php
 
-require_once ('DbConnectionInterface.php');
+require_once ("DbConnectionInterface.php");
 
-class PdoConnectionClass implements DbConnectionInterface {
+class MysqliConnectionClass implements DbConnectionInterface {
 
     private $host;
     private $username;
@@ -22,28 +22,29 @@ class PdoConnectionClass implements DbConnectionInterface {
 
     public function connect() {
 
+        mysqli_report(MYSQLI_REPORT_STRICT | MYSQLI_REPORT_ALL);
+
         try {
 
-            $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbname;
-            $conn = new PDO($dsn, $this->username, $this->password);
-            $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            $conn = new mysqli($this->host, $this->username, $this->password, $this->dbname);
 
-            echo 'Connected successfully through Pdo method<br>';
+            echo 'Connected successfully through Mysqli method<br>';
 
             return $conn;
+        }
+        catch (Exception $e) {
 
-        } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
     }
 
     public function get(string $tableName): array {
 
-        $query = "SELECT * FROM $tableName";
+        $query = "SELECT * FROM $tableName;";
 
-        $result = $this->connection->query($query);
+        $this->connection->query($query);
 
-        return $result->fetchAll();
+        return $this->connection->fetchAll();
     }
 
     public function update(string $tableName, array $updateData): bool
@@ -73,9 +74,9 @@ class PdoConnectionClass implements DbConnectionInterface {
                 $query = "UPDATE $tableName SET id_product = $updateData[1], id_color = $updateData[2], id_dimension = $updateData[3] WHERE id = $updateData[0]";
         }
 
-        $result = $this->connection->query($query);
+        $this->connection->query($query);
 
-        return (bool)$result->rowCount();
+        return (bool) $this->connection->affected_rows;
     }
 
     public function insert(string $tableName, array $insertData): bool
@@ -108,14 +109,14 @@ class PdoConnectionClass implements DbConnectionInterface {
 
         try {
 
-            $result = $this->connection->query($query);
+            $this->connection->query($query);
         } catch (Exception) {
 
             echo "Insertion failed!<br>";
             return false;
         }
 
-        return (bool)$result->rowCount();
+        return (bool)$this->connection->affected_rows;
     }
 
     public function delete(string $tableName, int $recordld): bool
@@ -146,8 +147,8 @@ class PdoConnectionClass implements DbConnectionInterface {
                 break;
         }
 
-        $result = $this->connection->query($query);
+        $this->connection->query($query);
 
-        return (bool)$result->rowCount();
+        return (bool)$this->connection->affected_rows;
     }
 }
