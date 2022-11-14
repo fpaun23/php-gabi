@@ -2,11 +2,13 @@
 
 require_once ('ProductController.php');
 require_once ('CustomerControllerClass.php');
+require_once ('./db/MysqliConnectionClass.php');
+require_once ('./db/PdoConnectionClass.php');
 
 echo "Type of connections are:<br>1)Pdo<br>2)Mysqli<br>";
 
-$CustomerControllerObjPdoConnection = new CustomerControllerClass('Pdo');
-$CustomerControllerObjMysqliConnection = new CustomerControllerClass('Mysqli');
+$CustomerControllerObjPdoConnection = new CustomerControllerClass(new PdoConnectionClass());
+$CustomerControllerObjMysqliConnection = new CustomerControllerClass(new MysqliConnectionClass());
 
 if($CustomerControllerObjMysqliConnection->update([1, 'dobritaandreigabriel@yahoo.com']))
     echo "Customer with id 1 succesfully update his email: dobritaandreigabriel@yahoo.com<br>";

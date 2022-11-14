@@ -8,27 +8,9 @@ class CustomerControllerClass {
 
     private DbConnectionInterface $connection;
 
-    public function __construct(string $typeOfConnection) {
+    public function __construct(DbConnectionInterface $typeOfConnection) {
 
-        try {
-
-            switch ($typeOfConnection) {
-
-                case 'Mysqli':
-                    $this->connection = new MysqliConnectionClass();
-                    break;
-                case 'Pdo':
-                    $this->connection = new PdoConnectionClass();
-                    break;
-                default:
-                    throw new Exception('Invalid type of connection!<br>');
-                    break;
-            }
-        }
-        catch (Exception $e) {
-
-            echo $e->getMessage();
-        }
+        $this->connection = $typeOfConnection;
     }
 
     public function get() : array {
