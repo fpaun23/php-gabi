@@ -6,9 +6,9 @@ require_once ('./db/MysqliConnectionClass.php');
 
 class CustomerControllerClass {
 
-    private $connection;
+    private DbConnectionInterface $connection;
 
-    public function __construct($typeOfConnection) {
+    public function __construct(string $typeOfConnection) {
 
         try {
 
