@@ -1,6 +1,7 @@
 <?php
 
-interface DbConnectionInterface {
+interface DbConnectionInterface
+{
 
     public function connect();
 
@@ -11,5 +12,4 @@ interface DbConnectionInterface {
     public function insert(string $tableName, array $insertData): bool;
 
     public function delete(string $tableName, int $recordld): bool;
-
 }

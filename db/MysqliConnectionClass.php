@@ -1,8 +1,9 @@
 <?php
 
-require_once ("DbConnectionInterface.php");
+require_once("DbConnectionInterface.php");
 
-class MysqliConnectionClass implements DbConnectionInterface {
+class MysqliConnectionClass implements DbConnectionInterface
+{
 
     private $host;
     private $username;
@@ -10,7 +11,8 @@ class MysqliConnectionClass implements DbConnectionInterface {
     private $dbname;
     private $connection;
 
-    public function __construct() {
+    public function __construct()
+    {
 
         $this->host = "localhost";
         $this->dbname = "dev_nest";
@@ -20,25 +22,25 @@ class MysqliConnectionClass implements DbConnectionInterface {
         $this->connection = $this->connect();
     }
 
-    public function connect() {
+    public function connect()
+    {
 
         mysqli_report(MYSQLI_REPORT_STRICT | MYSQLI_REPORT_ALL);
 
         try {
-
             $conn = new mysqli($this->host, $this->username, $this->password, $this->dbname);
 
             echo 'Connected successfully through Mysqli method<br>';
 
             return $conn;
-        }
-        catch (Exception $e) {
-
+        } catch (Exception $e) {
             echo "Connection failed: " . $e->getMessage();
         }
+        return false;
     }
 
-    public function get(string $tableName): array {
+    public function get(string $tableName): array
+    {
 
         $query = "SELECT * FROM $tableName;";
 
@@ -51,7 +53,6 @@ class MysqliConnectionClass implements DbConnectionInterface {
     {
 
         switch ($tableName) {
-
             case 'customer':
                 $query = "UPDATE $tableName SET email = '$updateData[1]' WHERE id = $updateData[0]";
                 break;
@@ -76,14 +77,13 @@ class MysqliConnectionClass implements DbConnectionInterface {
 
         $this->connection->query($query);
 
-        return (bool) $this->connection->affected_rows;
+        return (bool)$this->connection->affected_rows;
     }
 
     public function insert(string $tableName, array $insertData): bool
     {
 
         switch ($tableName) {
-
             case 'customer':
                 $query = "INSERT INTO $tableName (email, created_at) VALUES('$insertData[0]', '$insertData[1]')";
                 break;
@@ -108,10 +108,8 @@ class MysqliConnectionClass implements DbConnectionInterface {
         }
 
         try {
-
             $this->connection->query($query);
         } catch (Exception) {
-
             echo "Insertion failed!<br>";
             return false;
         }
@@ -123,7 +121,6 @@ class MysqliConnectionClass implements DbConnectionInterface {
     {
 
         switch ($tableName) {
-
             case 'customer':
                 $query = "DELETE FROM $tableName WHERE id = $recordld";
                 break;

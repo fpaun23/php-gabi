@@ -1,8 +1,9 @@
 <?php
 
-require_once ('DbConnectionInterface.php');
+require_once('DbConnectionInterface.php');
 
-class PdoConnectionClass implements DbConnectionInterface {
+class PdoConnectionClass implements DbConnectionInterface
+{
 
     private $host;
     private $username;
@@ -10,7 +11,8 @@ class PdoConnectionClass implements DbConnectionInterface {
     private $dbname;
     private $connection;
 
-    public function __construct() {
+    public function __construct()
+    {
 
         $this->host = "localhost";
         $this->dbname = "dev_nest";
@@ -20,10 +22,10 @@ class PdoConnectionClass implements DbConnectionInterface {
         $this->connection = $this->connect();
     }
 
-    public function connect() {
+    public function connect()
+    {
 
         try {
-
             $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbname;
             $conn = new PDO($dsn, $this->username, $this->password);
             $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
@@ -31,13 +33,13 @@ class PdoConnectionClass implements DbConnectionInterface {
             echo 'Connected successfully through Pdo method<br>';
 
             return $conn;
-
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
     }
 
-    public function get(string $tableName): array {
+    public function get(string $tableName): array
+    {
 
         $query = "SELECT * FROM $tableName";
 
@@ -50,7 +52,6 @@ class PdoConnectionClass implements DbConnectionInterface {
     {
 
         switch ($tableName) {
-
             case 'customer':
                 $query = "UPDATE $tableName SET email = '$updateData[1]' WHERE id = $updateData[0]";
                 break;
@@ -82,7 +83,6 @@ class PdoConnectionClass implements DbConnectionInterface {
     {
 
         switch ($tableName) {
-
             case 'customer':
                 $query = "INSERT INTO $tableName (email, created_at) VALUES('$insertData[0]', '$insertData[1]')";
                 break;
@@ -107,10 +107,8 @@ class PdoConnectionClass implements DbConnectionInterface {
         }
 
         try {
-
             $result = $this->connection->query($query);
         } catch (Exception) {
-
             echo "Insertion failed!<br>";
             return false;
         }
@@ -122,7 +120,6 @@ class PdoConnectionClass implements DbConnectionInterface {
     {
 
         switch ($tableName) {
-
             case 'customer':
                 $query = "DELETE FROM $tableName WHERE id = $recordld";
                 break;
